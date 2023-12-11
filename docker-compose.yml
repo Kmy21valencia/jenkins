@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  proyectos-micro:
+    container_name: proyectos-micro
+    image: proyectos-micro:v1
+    build: 
+      context: .
+    ports:
+      - "3001"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - PORT=3001
+    networks:
+      - proyectos-micro
+
+  balanceador-carga:
+    container_name: balanceador-carga
+    image: balanceador-carga:v1
+    build: 
+      context: ./balanceador
+    ports:
+      - "3002:80"
+    networks:
+      - proyectos-micro
+
+networks:
+  proyectos-micro:  
